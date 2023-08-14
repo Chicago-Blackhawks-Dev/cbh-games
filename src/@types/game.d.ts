@@ -1,0 +1,22 @@
+interface HockeyRink  {
+  iceColor: string;
+  boardWidth: number;
+  redLineColor: string;
+  blueLineColor: string;
+  goalLineColor: string;
+  goalNetColor: string;
+  creaseColor: string;
+  faceoffCircleColor: string;
+  faceoffSpotColor: string;
+  goalieAreaColor: string;
+  blueLineOffset: number;
+  goalLineOffset: number;
+  goalNetWidth: number;
+  goalNetHeight: number;
+  creaseWidth: number;
+  creaseHeight: number;
+  faceoffCircleRadius: number;
+  faceoffSpotRadius: number;
+  goalieAreaWidth: number;
+  goalieAreaHeight: number;
+};
