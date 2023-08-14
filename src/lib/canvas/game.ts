@@ -43,12 +43,12 @@ class ShootThePuck {
 
   public draw() {
     if (this.isPuckInMotion) {
-      this.drawPuck(this.puckXLocation, this.puckYLocation);
+      this.drawPuck();
     }
     this.clearCanvas();
     this.rink.draw();
     this.drawGoals();
-    this.drawPuck(this.rink.centerIceX, this.rink.centerIceY);
+    this.drawPuck();
     this.drawArrows();
     this.drawPowerMeter();
     if (this.powerReady) {
@@ -78,9 +78,9 @@ class ShootThePuck {
     }
   }
 
-  private drawPuck(x: number, y: number) {
+  private drawPuck() {
     this.ctx.beginPath();
-    this.ctx.arc(x, y, this.puckRadius, 0, 2 * Math.PI, false);
+    this.ctx.arc(this.puckXLocation, this.puckYLocation, this.puckRadius, 0, 2 * Math.PI, false);
     this.ctx.fillStyle = 'black';
     this.ctx.fill();
   }
@@ -93,11 +93,11 @@ class ShootThePuck {
     // Draw the left arrow
     this.ctx.beginPath();
     // Draw the shaft
-    this.ctx.rect(this.rink.centerIceX - this.puckRadius - this.arrowDistanceFromPuck - shaftLength, this.puckYLocation + this.puckRadius + this.arrowYOffset - shaftThickness / 2, shaftLength, shaftThickness);
+    this.ctx.rect(this.rink.centerIceX - this.puckRadius - this.arrowDistanceFromPuck - shaftLength, this.rink.centterI + this.puckRadius + this.arrowYOffset - shaftThickness / 2, shaftLength, shaftThickness);
     // Draw the arrowhead
-    this.ctx.moveTo(this.rink.centerIceX - this.puckRadius - this.arrowDistanceFromPuck - this.arrowLength, this.puckYLocation + this.puckRadius + this.arrowYOffset);
-    this.ctx.lineTo(this.rink.centerIceX - this.puckRadius - this.arrowDistanceFromPuck - shaftLength, this.puckYLocation + this.puckRadius + this.arrowYOffset - this.arrowHeadWidth / 2);
-    this.ctx.lineTo(this.rink.centerIceX - this.puckRadius - this.arrowDistanceFromPuck - shaftLength, this.puckYLocation + this.puckRadius + this.arrowYOffset + this.arrowHeadWidth / 2);
+    this.ctx.moveTo(this.rink.centerIceX - this.puckRadius - this.arrowDistanceFromPuck - this.arrowLength, this.rink.centterI + this.puckRadius + this.arrowYOffset);
+    this.ctx.lineTo(this.rink.centerIceX - this.puckRadius - this.arrowDistanceFromPuck - shaftLength, this.rink.centterI + this.puckRadius + this.arrowYOffset - this.arrowHeadWidth / 2);
+    this.ctx.lineTo(this.rink.centerIceX - this.puckRadius - this.arrowDistanceFromPuck - shaftLength, this.rink.centterI + this.puckRadius + this.arrowYOffset + this.arrowHeadWidth / 2);
     this.ctx.closePath();
     this.ctx.fillStyle = 'black';
     this.ctx.fill();
@@ -108,11 +108,11 @@ class ShootThePuck {
     // Draw the right arrow
     this.ctx.beginPath();
     // Draw the shaft
-    this.ctx.rect(this.rink.centerIceX + this.puckRadius + this.arrowDistanceFromPuck, this.puckYLocation + this.puckRadius + this.arrowYOffset - shaftThickness / 2, shaftLength, shaftThickness);
+    this.ctx.rect(this.rink.centerIceX + this.puckRadius + this.arrowDistanceFromPuck, this.rink.centterI + this.puckRadius + this.arrowYOffset - shaftThickness / 2, shaftLength, shaftThickness);
     // Draw the arrowhead
-    this.ctx.moveTo(this.rink.centerIceX + this.puckRadius + this.arrowDistanceFromPuck + this.arrowLength, this.puckYLocation + this.puckRadius + this.arrowYOffset);
-    this.ctx.lineTo(this.rink.centerIceX + this.puckRadius + this.arrowDistanceFromPuck + shaftLength, this.puckYLocation + this.puckRadius + this.arrowYOffset - this.arrowHeadWidth / 2);
-    this.ctx.lineTo(this.rink.centerIceX + this.puckRadius + this.arrowDistanceFromPuck + shaftLength, this.puckYLocation + this.puckRadius + this.arrowYOffset + this.arrowHeadWidth / 2);
+    this.ctx.moveTo(this.rink.centerIceX + this.puckRadius + this.arrowDistanceFromPuck + this.arrowLength, this.rink.centterI + this.puckRadius + this.arrowYOffset);
+    this.ctx.lineTo(this.rink.centerIceX + this.puckRadius + this.arrowDistanceFromPuck + shaftLength, this.rink.centterI + this.puckRadius + this.arrowYOffset - this.arrowHeadWidth / 2);
+    this.ctx.lineTo(this.rink.centerIceX + this.puckRadius + this.arrowDistanceFromPuck + shaftLength, this.rink.centterI + this.puckRadius + this.arrowYOffset + this.arrowHeadWidth / 2);
     this.ctx.closePath();
     this.ctx.fillStyle = 'black';
     this.ctx.fill();
@@ -298,7 +298,7 @@ class ShootThePuck {
     const randomFactor = Math.random() * 2 - 1;
     const deviationFactor = deviation * randomFactor;
     const velocityX = initialVelocity *  deviationFactor;
-    const velocityY = initialVelocity * (1 - Math.abs(deviationFactor));
+    const velocityY = 650 * (1 - Math.abs(deviationFactor));
 
     return { x: velocityX, y: velocityY };
 
