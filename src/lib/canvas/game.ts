@@ -12,7 +12,7 @@ class ShootThePuck {
   private arrowDistanceFromPuck = 30;
   private puckXLocation: number;
   private puckYLocation: number;
-  private difficulty = 10;
+  private difficulty = 100;
   private powerReady = false;
   private power = 100;
   private powerMeterWidth = 20; // Width of the rectangle
@@ -42,9 +42,6 @@ class ShootThePuck {
   }
 
   public draw() {
-    if (this.isPuckInMotion) {
-      this.drawPuck();
-    }
     this.clearCanvas();
     this.rink.draw();
     this.drawGoals();
@@ -93,11 +90,11 @@ class ShootThePuck {
     // Draw the left arrow
     this.ctx.beginPath();
     // Draw the shaft
-    this.ctx.rect(this.rink.centerIceX - this.puckRadius - this.arrowDistanceFromPuck - shaftLength, this.rink.centterI + this.puckRadius + this.arrowYOffset - shaftThickness / 2, shaftLength, shaftThickness);
+    this.ctx.rect(this.rink.centerIceX - this.puckRadius - this.arrowDistanceFromPuck - shaftLength, this.rink.centerIceY + this.puckRadius + this.arrowYOffset - shaftThickness / 2, shaftLength, shaftThickness);
     // Draw the arrowhead
-    this.ctx.moveTo(this.rink.centerIceX - this.puckRadius - this.arrowDistanceFromPuck - this.arrowLength, this.rink.centterI + this.puckRadius + this.arrowYOffset);
-    this.ctx.lineTo(this.rink.centerIceX - this.puckRadius - this.arrowDistanceFromPuck - shaftLength, this.rink.centterI + this.puckRadius + this.arrowYOffset - this.arrowHeadWidth / 2);
-    this.ctx.lineTo(this.rink.centerIceX - this.puckRadius - this.arrowDistanceFromPuck - shaftLength, this.rink.centterI + this.puckRadius + this.arrowYOffset + this.arrowHeadWidth / 2);
+    this.ctx.moveTo(this.rink.centerIceX - this.puckRadius - this.arrowDistanceFromPuck - this.arrowLength, this.rink.centerIceY + this.puckRadius + this.arrowYOffset);
+    this.ctx.lineTo(this.rink.centerIceX - this.puckRadius - this.arrowDistanceFromPuck - shaftLength, this.rink.centerIceY + this.puckRadius + this.arrowYOffset - this.arrowHeadWidth / 2);
+    this.ctx.lineTo(this.rink.centerIceX - this.puckRadius - this.arrowDistanceFromPuck - shaftLength, this.rink.centerIceY + this.puckRadius + this.arrowYOffset + this.arrowHeadWidth / 2);
     this.ctx.closePath();
     this.ctx.fillStyle = 'black';
     this.ctx.fill();
@@ -108,11 +105,11 @@ class ShootThePuck {
     // Draw the right arrow
     this.ctx.beginPath();
     // Draw the shaft
-    this.ctx.rect(this.rink.centerIceX + this.puckRadius + this.arrowDistanceFromPuck, this.rink.centterI + this.puckRadius + this.arrowYOffset - shaftThickness / 2, shaftLength, shaftThickness);
+    this.ctx.rect(this.rink.centerIceX + this.puckRadius + this.arrowDistanceFromPuck, this.rink.centerIceY + this.puckRadius + this.arrowYOffset - shaftThickness / 2, shaftLength, shaftThickness);
     // Draw the arrowhead
-    this.ctx.moveTo(this.rink.centerIceX + this.puckRadius + this.arrowDistanceFromPuck + this.arrowLength, this.rink.centterI + this.puckRadius + this.arrowYOffset);
-    this.ctx.lineTo(this.rink.centerIceX + this.puckRadius + this.arrowDistanceFromPuck + shaftLength, this.rink.centterI + this.puckRadius + this.arrowYOffset - this.arrowHeadWidth / 2);
-    this.ctx.lineTo(this.rink.centerIceX + this.puckRadius + this.arrowDistanceFromPuck + shaftLength, this.rink.centterI + this.puckRadius + this.arrowYOffset + this.arrowHeadWidth / 2);
+    this.ctx.moveTo(this.rink.centerIceX + this.puckRadius + this.arrowDistanceFromPuck + this.arrowLength, this.rink.centerIceY + this.puckRadius + this.arrowYOffset);
+    this.ctx.lineTo(this.rink.centerIceX + this.puckRadius + this.arrowDistanceFromPuck + shaftLength, this.rink.centerIceY + this.puckRadius + this.arrowYOffset - this.arrowHeadWidth / 2);
+    this.ctx.lineTo(this.rink.centerIceX + this.puckRadius + this.arrowDistanceFromPuck + shaftLength, this.rink.centerIceY + this.puckRadius + this.arrowYOffset + this.arrowHeadWidth / 2);
     this.ctx.closePath();
     this.ctx.fillStyle = 'black';
     this.ctx.fill();
@@ -154,14 +151,11 @@ class ShootThePuck {
     // Check if the click/touch is within the vertical bounds of the arrows
     if (y > this.puckYLocation + this.puckRadius + this.arrowYOffset - shaftThickness / 2 && y < this.puckYLocation + this.puckRadius + this.arrowYOffset + shaftThickness / 2) {
       // Check if the click/touch is within the horizontal bounds of the left arrowhead
-      console.log('Yup')
       if (x > this.rink.centerIceX - this.puckRadius - this.arrowDistanceFromPuck - this.arrowLength && x < this.rink.centerIceX - this.puckRadius - this.arrowDistanceFromPuck - shaftLength) {
-        console.log('uhuh')
         this.puckXLocation -= 5; // Move the puck to the left
       }
       // Check if the click/touch is within the horizontal bounds of the right arrowhead
       else if (x > this.rink.centerIceX + this.puckRadius + this.arrowDistanceFromPuck + shaftLength && x < this.rink.centerIceX + this.puckRadius + this.arrowDistanceFromPuck + this.arrowLength) {
-        console.log('ok')
         this.puckXLocation += 5; // Move the puck to the right
       }
     }
@@ -232,17 +226,13 @@ class ShootThePuck {
 
   private startPuckAnimation() {
     const { x, y } = this.calculateVelocity(this.accuracy, this.power);
+    this.puckVelocityX = x;
+    this.puckVelocityY = y;
     this.isPuckInMotion = true;
     // Start an animation loop or a timer to update the puck's position
     this.puckAnimationInterval = setInterval(() => {
-      console.log('this.puckXLocation', this.puckXLocation)
-      console.log('this.puckYLocation', this.puckYLocation)
-      console.log('x', x)
-      console.log('y', y)
       this.puckXLocation += x;
       this.puckYLocation -= y;
-      console.log('this.puckXLocation', this.puckXLocation)
-      console.log('this.puckYLocation', this.puckYLocation)
       // Other updates like collision checking, slowing down due to friction, etc.
   
       this.draw();
@@ -259,10 +249,14 @@ class ShootThePuck {
   
     // Check if both the x and y components of the puck's velocity are below the threshold
     if (Math.abs(this.puckVelocityX) < velocityThreshold && Math.abs(this.puckVelocityY) < velocityThreshold) {
-      return true; 
+      return false; 
+    }
+
+    if(this.checkGoalCollision()) {
+      return true;
     }
   
-    return this.isPuckInMotion;
+    return false;
   }
 
   private handlePuckClick(x: number, y: number) {
@@ -292,26 +286,45 @@ class ShootThePuck {
     this.ctx.fillRect(rectangleX, rectangleY, fillWidth, this.accuracyMeterHeight);
   }
 
+  private calculateYVelocity(power: number): number {
+  console.log('power', power )
+  const goalYBehindNet = this.rink.centerIceY - this.rink.goalineOffset - 200; // Define 'someValue' as the desired distance behind the net
+
+  const startY = this.puckYLocation;
+  const endY = goalYBehindNet;
+  const distanceToTravelY = startY - endY; // Total distance in the y-direction that the puck needs to travel
+
+  // Scale the velocity based on the power
+  const velocityY = (power / 100) * distanceToTravelY / (400); // Define 'someTimeFactor' to control how quickly the puck reaches the destination
+
+  return velocityY;
+}
+
   private calculateVelocity(accuracy: number, initialVelocity: number) {
     const normalizedAccuracy = accuracy / 100; // A value between 0 and 1
     const deviation = 1 - normalizedAccuracy;
     const randomFactor = Math.random() * 2 - 1;
     const deviationFactor = deviation * randomFactor;
-    const velocityX = initialVelocity *  deviationFactor;
-    const velocityY = 650 * (1 - Math.abs(deviationFactor));
+    const velocityX = normalizedAccuracy *  deviationFactor;
+    const velocity = this.calculateYVelocity(initialVelocity);
 
-    return { x: velocityX, y: velocityY };
+    return { x: velocityX, y: velocity };
 
   }
 
   private checkGoalCollision() {
+    let isCollision = false;
     this.goalCoordinates.forEach(goal => {
       const dist = Math.sqrt((goal.x - this.puckXLocation) ** 2 + (goal.y - this.puckYLocation) ** 2);
+      console.log('dist', dist)
+      console.log('goal.radius', goal.radius)
+      console.log('this.puckRadius', this.puckRadius)
       if (dist < goal.radius + this.puckRadius) {
-        this.isPuckInMotion = false; // Stop the puck
-        // You can add additional logic here for scoring or effects
+       isCollision = true;
+       return;
       }
-    });
+    })
+    return isCollision;
   }
 
   public resetPuck() {
@@ -325,8 +338,12 @@ class ShootThePuck {
 
   public updatePuckPosition() {
     if (this.isPuckInMotion) {
+      console.log('Initial this.puckXLocation', this.puckXLocation)
+      console.log('Initial this.puckYLocation', this.puckYLocation)
       this.puckXLocation += this.puckVelocityX;
-      this.puckYLocation += this.puckVelocityY;
+      this.puckYLocation -= this.puckVelocityY;
+      console.log('Updated this.puckXLocation', this.puckXLocation)
+      console.log('Updated this.puckYLocation', this.puckYLocation)
       
       // Check for collisions with the goals
       this.checkGoalCollision();
